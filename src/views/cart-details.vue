@@ -23,9 +23,9 @@
                   <div class="cart-item-numbers d-inline-block">
                       <span class="d-block px-3">$34.00</span>
                       <p class="mb-0 cart-item-quantity-controls">
-                          <span>-</span>
-                          <span>3</span>
-                          <span>+</span>
+                          <span class="btn btn-xs btn-success">-</span>
+                          <span class="px-2">3</span>
+                          <span class="btn btn-xs btn-success">+</span>
                       </p>
                   </div>
               </section>
@@ -52,9 +52,7 @@ export default {
     .cart-item > div{vertical-align: bottom;}
     .cart-item-specs p{margin-bottom: 3px;}
     .cart-item-numbers{text-align: center; font-size: 21px;}
-    .cart-item-quantity-controls span{display: inline-block; padding: 0 3px;}
     .cart-item-quantity-controls span:hover{cursor: pointer;}
-    .cart-item-quantity-controls span:nth-of-type(1), .cart-item-quantity-controls span:nth-of-type(3){color: green;}
     @media screen and (min-width: 768px){
         .cart-item, .cart-total{width: 80%;}
         .cart-item > div{width: 20%;}

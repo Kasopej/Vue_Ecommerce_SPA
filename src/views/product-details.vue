@@ -6,10 +6,10 @@
             <div>
                 <p>Current stock: 20</p>
                 <p>$34.00</p>
-                <p class="cart-item-quantity-controls">Add to cart 
-                    <span>-</span>
-                    <span>3</span>
-                    <span>+</span>
+                <p class="cart-item-quantity-controls pr-4">Add to cart 
+                    <span class="ml-2 btn btn-xs btn-success">-</span>
+                    <span class="px-2">3</span>
+                    <span class="btn btn-xs btn-success">+</span>
                 </p>
             </div>
           </div>
@@ -28,6 +28,6 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .cart-item-quantity-controls span:first-of-type{padding-left: 10px;}
 </style>
