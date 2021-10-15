@@ -11,6 +11,7 @@
                     <span class="px-2">{{productInCart(product.id)}}</span>
                     <span @click="addProductToCart(product)" class="btn btn-xs btn-success">+</span>
                 </p>
+                <router-link to="/cart" class="btn btn-xl btn-success">Go to cart</router-link>
             </div>
           </div>
           <div class="col-md-6 description">
