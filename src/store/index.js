@@ -22,7 +22,6 @@ const actions = {
 };
 const getters = {
   findProductById: (state) => (id) => {
-    console.log(`Finding product with id of ${id} from ${JSON.stringify(state.products)}`);
     return state.products.find(e => e.id == id)
   }
 };

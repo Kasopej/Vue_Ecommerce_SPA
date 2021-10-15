@@ -90,11 +90,11 @@
 
 <script>
 export default {
-    name: 'NavBar',
-
+    name: 'NavBar',   
+    
 }
 </script>
-
+  
 <style>
 form{text-align: center;}
 form > div{width: 60%; margin: auto; margin-bottom: 15px;}
