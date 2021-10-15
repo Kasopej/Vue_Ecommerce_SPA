@@ -1,15 +1,15 @@
 <template>
     <div>
-        <div class="col mb-4" v-for="n in 50" :key="n">
+        <div class="col mb-4" v-for="product in products" :key="product.id">
             <div class="card">
                 <router-link to="/product" >
-                    <img src="https://via.placeholder.com/800" alt="Product image" class="card-img-top">
+                    <img :src="product.image" alt="Product image" class="card-img-top">
                 </router-link>
                 <div class="card-body">
-                    <router-link to="/product" class="product-name h5">Product name</router-link>
+                    <router-link :to="{name: 'ProductDetails', params: {id: product.id},}" class="product-name h5">{{product.title}}</router-link>
                     <div>
-                        <p>$34.00</p>
-                        <p>Current stock: 20</p>
+                        <p>${{product.price}}</p>
+                        <p>Current stock: {{product.rating.count}}</p>
                     </div>
                 </div>
             </div>
@@ -18,11 +18,28 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
     name: 'ProductSummary',
     props: {
-        products: {type: Array, default: () => [],}
-    }
+        //products: {type: Array, default: () => [],}
+    },
+    data() {
+
+        return {
+            
+        }
+
+    },
+    created() {
+        this.letStoreGetProducts()
+    },
+    methods: {
+        ...mapActions({letStoreGetProducts: 'getProductsData'})    
+    },
+    computed: {
+        ...mapState(['products'])
+    },
 }
 </script>
 

@@ -39,11 +39,11 @@
             <form action="">
               <div>
                 <label for="email">Email</label>
-                <input type="mail" name="email" id="email-input">
+                <input type="mail" name="email" id="login-email-input">
               </div>
               <div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password">
+                <input type="password" name="password" id="login-password">
               </div>
             </form>
           </div>
@@ -57,7 +57,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Signup</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -70,11 +70,11 @@
               </div>
               <div>
                 <label for="email">Email</label>
-                <input type="mail" name="email" id="email-input">
+                <input type="mail" name="email" id="signup-email-input">
               </div>
               <div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password">
+                <input type="password" name="password" id="signup-password">
               </div>
             </form>
           </div>
