@@ -7,9 +7,9 @@
                 <p>Current stock: {{product.rating.count}}</p>
                 <p>${{product.price}}</p>
                 <p class="cart-item-quantity-controls pr-4">Add to cart 
-                    <span class="ml-2 btn btn-xs btn-success">-</span>
-                    <span class="px-2">3</span>
-                    <span class="btn btn-xs btn-success">+</span>
+                    <span @click="removeProductFromCart(product)" class="ml-2 btn btn-xs btn-success">-</span>
+                    <span class="px-2">{{productInCart(product.id)}}</span>
+                    <span @click="addProductToCart(product)" class="btn btn-xs btn-success">+</span>
                 </p>
             </div>
           </div>
@@ -41,13 +41,14 @@ export default {
     },
     async created() {
       await this.letStoreGetProducts();
-      this.product = this.findProductById(this.id)  
+      this.product = this.findProductById(this.id);
+
     },
     computed: {
-      ...mapGetters(['findProductById'])  
+      ...mapGetters(['findProductById', 'productInCart'])  
     },
     methods: {
-      ...mapActions({letStoreGetProducts: 'getProductsData'})
+      ...mapActions({letStoreGetProducts: 'getProductsData', addProductToCart: 'addProductToCart', removeProductFromCart: 'removeProductFromCart'}),
     },
 
 }
