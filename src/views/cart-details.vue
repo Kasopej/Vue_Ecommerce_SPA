@@ -1,37 +1,40 @@
 <template>
   <div id="cart-page container">
-      <main v-if="false" class="empty-cart">
-          <div>
+      <main v-if="cart.length == 0" class="empty-cart">
+          <div class="text-center">
               <img src="assets/img/empty-cart.png" alt="Empty Cart Image" class="img-fluid">
               <h2>Your Cart is Empty!</h2>
-              <button class="btn btn-lg btn-dark">Shop</button>
+              <router-link to="/" class="btn btn-lg btn-dark">Shop</router-link>
           </div>
       </main>
       <main v-else class="loaded-cart p-4">
           <div class="justify-content-center">
               <h3 class="text-center mb-3">My Cart</h3>
-              <section v-for="n in 4" :key="n" class="cart-item mb-2 mx-md-auto mb-md-3">
+              <section v-for="product in cart" :key="product.id" class="cart-item mb-2 mx-md-auto mb-md-3">
                   <div class="d-inline-block">
-                      <img src="https://via.placeholder.com/100" alt="cart item image">
+                      <img :src="product.image" alt="cart item image" class="img-fluid">
                   </div>
                   <div class="cart-item-specs d-inline-block px-2">
-                      <p class="">Item name</p>
+                      <p class="">{{product.title}}</p>
                       <p class="">Item color</p>
-                      <p class="">Item category</p>
-                      <p class="mb-0">Current stock: 20</p>
+                      <p class="">{{product.category}}</p>
+                      <p class="mb-0">Current stock: {{product.rating.count}}</p>
                   </div>
                   <div class="cart-item-numbers d-inline-block">
-                      <span class="d-block px-3">$34.00</span>
+                      <span class="d-block px-3">${{product.price}}</span>
                       <p class="mb-0 cart-item-quantity-controls">
-                          <span class="btn btn-xs btn-success">-</span>
-                          <span class="px-2">3</span>
-                          <span class="btn btn-xs btn-success">+</span>
+                          <span @click="removeProductFromCart(product)" class="btn btn-xs btn-success">-</span>
+                          <span class="px-2">{{productInCart(product.id)}}</span>
+                          <span @click="addProductToCart(product)" class="btn btn-xs btn-success">+</span>
                       </p>
                   </div>
               </section>
-              <h4 class="cart-total text-center mx-auto mt-4">Total: $136.00</h4>
+              <h4 class="cart-total text-center mx-auto mt-4">Total: ${{cartTotal}}</h4>
               <div class="text-center mt-3">
-                  <button class="btn-xl btn-success rounded m-auto">Checkout Cart</button>
+                  <button class="px-2 btn-xl btn-success rounded mx-2">Checkout Cart</button>
+                  <router-link to="/" class="mx-2">
+                    <button class="px-2 btn-xl btn-warning rounded">Continue Shopping</button>
+                  </router-link>
               </div>
           </div>
       </main>
@@ -39,8 +42,24 @@
 </template>
 
 <script>
-export default {
+import { mapState, mapActions, mapGetters } from "vuex";
 
+export default {
+    name: 'CartDetails',
+    data() {
+
+        return {
+            
+        }
+
+    },
+    computed: {
+        ...mapState(['cart']),
+        ...mapGetters(['productInCart', 'cartTotal'])
+    },
+    methods: {
+      ...mapActions({addProductToCart: 'addProductToCart', removeProductFromCart: 'removeProductFromCart'}),
+    },
 }
 </script>
 

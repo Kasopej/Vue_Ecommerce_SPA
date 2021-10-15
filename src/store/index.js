@@ -55,6 +55,9 @@ const getters = {
   productInCart: (state) => (id) => {
     console.log('checking quantity');
     return state.cart.find(e => e.id == id) ? state.cart.find(e => e.id == id).quantity : 0;
+  },
+  cartTotal(state) {
+    return state.cart.reduce((sum, e) => sum + (e.quantity * e.price), 0).toFixed(2)
   }
 };
 export default new Vuex.Store({

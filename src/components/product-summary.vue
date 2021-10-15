@@ -2,7 +2,7 @@
     <div>
         <div class="col mb-4" v-for="product in products" :key="product.id">
             <div class="card">
-                <router-link to="/product" >
+                <router-link :to="{name: 'ProductDetails', params: {id: product.id},}">
                     <img :src="product.image" alt="Product image" class="card-img-top">
                 </router-link>
                 <div class="card-body">
