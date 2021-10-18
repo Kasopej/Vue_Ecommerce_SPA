@@ -20,7 +20,7 @@ const routes = [
 
     path: '/product/:id',
     name: 'ProductDetails',
-    component: () => import(/* webpackChunkName: "about" */  '../views/product-details.vue'),
+    component: () => import(/* webpackChunkName: "product-details" */  '../views/product-details.vue'),
     props: route => ({ id: parseInt(route.params.id) })
   },
 ]

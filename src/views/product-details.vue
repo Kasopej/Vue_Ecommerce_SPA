@@ -40,8 +40,8 @@ export default {
       }
 
     },
-    async created() {
-      await this.letStoreGetProducts();
+    created() {
+      //await this.letStoreGetProducts();
       this.product = this.findProductById(this.id);
 
     },

@@ -31,7 +31,7 @@
               </section>
               <h4 class="cart-total text-center mx-auto mt-4">Total: ${{cartTotal}}</h4>
               <div class="text-center mt-3">
-                  <button class="px-2 btn-xl btn-success rounded mx-2">Checkout Cart</button>
+                  <button @click="checkout" class="px-2 btn-xl btn-success rounded mx-2">Checkout Cart</button>
                   <router-link to="/" class="mx-2">
                     <button class="px-2 btn-xl btn-warning rounded">Continue Shopping</button>
                   </router-link>
@@ -58,7 +58,7 @@ export default {
         ...mapGetters(['productInCart', 'cartTotal'])
     },
     methods: {
-      ...mapActions({addProductToCart: 'addProductToCart', removeProductFromCart: 'removeProductFromCart'}),
+      ...mapActions({addProductToCart: 'addProductToCart', removeProductFromCart: 'removeProductFromCart', checkout: 'checkout',}),
     },
 }
 </script>

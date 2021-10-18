@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios";
+import createPersistedState from 'vuex-persistedstate'
 
 
 Vue.use(Vuex)
@@ -31,6 +32,18 @@ const mutations = {
       state.cart[index].quantity--;
       (state.cart[index].quantity == 0) ? state.cart.splice(index, 1) : state.cart
     }
+  },
+  checkout(state) {
+    state.cart.forEach(function (el_cart) {
+      state.products.forEach(
+        function (el_product) {
+          if (el_cart.id == el_product.id) {
+            el_product.rating.count -= el_cart.quantity;
+          }
+        }
+      )
+    })
+    state.cart = [];
   }
 };
 const actions = {
@@ -44,8 +57,11 @@ const actions = {
   },
   removeProductFromCart(context, product) {
     const currentlyInCart = context.getters.productInCart(product.id);
-    const payloads = { product: product, currentlyInCart: currentlyInCart }
-    context.commit('depopulateCart', payloads)
+    const payloads = { product: product, currentlyInCart: currentlyInCart };
+    context.commit('depopulateCart', payloads);
+  },
+  checkout({ commit }) {
+    commit('checkout');
   }
 };
 const getters = {
@@ -64,5 +80,8 @@ export default new Vuex.Store({
   state,
   mutations,
   actions,
-  getters
+  getters,
+  plugins: [createPersistedState({
+    storage: window.sessionStorage,
+  })],
 })
