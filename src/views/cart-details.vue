@@ -31,10 +31,15 @@
               </section>
               <h4 class="cart-total text-center mx-auto mt-4">Total: ${{cartTotal}}</h4>
               <div class="text-center mt-3">
-                  <button @click="checkout" class="px-2 btn-xl btn-success rounded mx-2">Checkout Cart</button>
+                  <button @click="checkoutFn" class="px-2 btn-xl btn-success rounded mx-2">Checkout Cart</button>
                   <router-link to="/" class="mx-2">
                     <button class="px-2 btn-xl btn-warning rounded">Continue Shopping</button>
                   </router-link>
+              </div>
+              <p v-if="message" class="mt-3 text-center border">{{message}}</p>
+              <div v-if="checkingOut">
+                  <button @click="readyToCheckout = false" class="btn-md btn-danger" style="float: right">x</button>
+                  <p style="clear: both">Thank you for shopping with us! Your items will be delivered soon</p>
               </div>
           </div>
       </main>
@@ -49,16 +54,33 @@ export default {
     data() {
 
         return {
-            
+            readyToCheckout: false,
         }
 
     },
     computed: {
-        ...mapState(['cart']),
-        ...mapGetters(['productInCart', 'cartTotal'])
+        ...mapState(['cart', 'message']),
+        ...mapGetters(['productInCart', 'cartTotal']),
+        checkingOut(){
+            if(this.readyToCheckout) {
+                return true;
+            }
+            else return false;
+        },
     },
     methods: {
       ...mapActions({addProductToCart: 'addProductToCart', removeProductFromCart: 'removeProductFromCart', checkout: 'checkout',}),
+      checkoutFn(){
+          this.readyToCheckout = true;
+          new Promise((resolve, reject) => {
+              setTimeout(() => {
+                  if(!this.checkingOut){
+                      resolve()
+                  }
+                  else setTimeout(() => reject(), 2000)
+              }, 2000)
+          }).catch(console.log).finally(this.checkout)
+      },
     },
 }
 </script>
