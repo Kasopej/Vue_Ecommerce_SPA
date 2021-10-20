@@ -21,9 +21,6 @@
 import { mapActions, mapState } from "vuex";
 export default {
     name: 'ProductSummary',
-    props: {
-        //products: {type: Array, default: () => [],}
-    },
     data() {
 
         return {

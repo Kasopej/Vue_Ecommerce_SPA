@@ -7,11 +7,12 @@ import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
 
 const state = {
-  products: [], users: [], cart: [],
+  products: [], users: [], cart: [], message: "",
 };
 const mutations = {
   populateStoreProducts(state, products) {
     state.products = products;
+    state.message = '';
   },
   populateCart(state, product) {
     const item = state.cart.find(e => e.id == product.id);
@@ -22,6 +23,7 @@ const mutations = {
     else {
       state.cart.push({ ...product, quantity: 1 })
     }
+    state.message = '';
     console.log(state.cart);
   },
   depopulateCart(state, payload) {
@@ -31,19 +33,23 @@ const mutations = {
       console.log(`check index of product: ${index}`);
       state.cart[index].quantity--;
       (state.cart[index].quantity == 0) ? state.cart.splice(index, 1) : state.cart
+      state.message = '';
     }
   },
   checkout(state) {
-    state.cart.forEach(function (el_cart) {
+    let error = false;
+    state.cart.some(function (el_cart) {
       state.products.forEach(
         function (el_product) {
           if (el_cart.id == el_product.id) {
-            el_product.rating.count -= el_cart.quantity;
+            if (el_product.rating.count >= el_cart.quantity) el_product.rating.count -= el_cart.quantity;
+            else { error = true; }
           }
         }
       )
+      return error;
     })
-    state.cart = [];
+    !error ? state.cart = [] : state.message = 'Please ensure your cart does not exceed the stock  currently available';
   }
 };
 const actions = {
