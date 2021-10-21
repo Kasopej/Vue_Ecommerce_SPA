@@ -80,6 +80,7 @@ export default {
                   else setTimeout(() => reject(), 2000)
               }, 2000)
           }).catch(console.log).finally(this.checkout)
+    
       },
     },
 }
