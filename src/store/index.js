@@ -14,18 +14,12 @@ const mutations = {
     state.products = products;
     state.message = '';
   },
-  populateCart(state, product) {
-    const item = state.cart.find(e => e.id == product.id);
-    if (item) {
-      const index = state.cart.indexOf(item)
-      state.cart[index].quantity++;
-    }
-    else {
-      state.cart.push({ ...product, quantity: 1 })
-    }
-    localStorage.setItem('cart', JSON.stringify(state.cart));
+  populateCart_existing(state, index) {
+    state.cart[index].quantity++;
     state.message = '';
-    console.log(state.cart);
+  },
+  populateCart_new(state, product) {
+    state.cart.push({ ...product, quantity: 1 })
   },
   depopulateCart(state, payload) {
     if (payload.currentlyInCart) {
@@ -74,7 +68,16 @@ const actions = {
     }
   },
   addProductToCart(context, product) {
-    context.commit('populateCart', product);
+    const item = context.state.cart.find(e => e.id == product.id);
+    if (item) {
+      const index = context.state.cart.indexOf(item)
+      context.commit('populateCart_existing', index)
+    }
+    else {
+      context.commit('populateCart_new', product);
+    }
+    localStorage.setItem('cart', JSON.stringify(state.cart));
+
   },
   removeProductFromCart(context, product) {
     const currentlyInCart = context.getters.productInCart(product.id);
