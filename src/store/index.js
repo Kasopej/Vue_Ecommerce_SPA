@@ -4,7 +4,7 @@ import axios from "axios";
 import createPersistedState from 'vuex-persistedstate'
 
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const state = {
   products: [], users: [], cart: [], message: "",
@@ -61,8 +61,6 @@ const actions = {
 
   },
   removeProductFromCart(context, product) {
-    //const currentlyInCart = context.getters.productInCart(product.id);
-    //const payloads = { product: product, currentlyInCart: currentlyInCart };
     const index = context.state.cart.findIndex(cartItem => cartItem.id == product.id);
     if (context.state.cart[index].quantity) {
       context.commit('depopulateCart', index);
