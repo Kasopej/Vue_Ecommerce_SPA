@@ -35,16 +35,16 @@ const mutations = {
 };
 const actions = {
   async getProductsData(context) {
+    //Check if there is data in state (state is persisted), if NOT get products via API
     if (!context.state.products.length) {
-      console.log('Initializing products Array');
       const response = await axios.get('https://fakestoreapi.com/products');
       const products = response.data
       context.commit('populateStoreProducts', products);
     }
   },
   getCartFromStorage({ commit }) {
+    //Check if there are items in local storage cart array, if there are commit to state cart
     if (localStorage.getItem('cart')) {
-      console.log('Geting cart from local storage');
       commit('populateCartFromStorage')
     }
   },
@@ -62,6 +62,7 @@ const actions = {
   },
   removeProductFromCart(context, product) {
     const index = context.state.cart.findIndex(cartItem => cartItem.id == product.id);
+    //Check quantity of item. Will not run if qty is zero or does not exist (undefined)
     if (context.state.cart[index].quantity) {
       context.commit('depopulateCart', index);
     }
@@ -70,12 +71,13 @@ const actions = {
   },
   checkout(context) {
     let error = false;
+    //Compare items in cart iteratively to products in state
     context.state.cart.some(function (cartItem) {
       context.state.products.forEach(
         function (product) {
           if (cartItem.id == product.id) {
             if (product.rating.count >= cartItem.quantity) product.rating.count -= cartItem.quantity;
-            else { error = true; }
+            else { error = true; } //Error if attempt is made to checkout more than what is available in stock
           }
         }
       )
@@ -90,7 +92,6 @@ const getters = {
     return state.products.find(product => product.id == id)
   },
   productInCart: (state) => (id) => {
-    console.log('checking quantity');
     return state.cart.find(cartItem => cartItem.id == id) ? state.cart.find(cartItem => cartItem.id == id).quantity : 0;
   },
   cartTotal(state) {
