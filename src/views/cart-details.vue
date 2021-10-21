@@ -14,13 +14,13 @@
                   <div class="d-inline-block">
                       <img :src="product.image" alt="cart item image" class="img-fluid">
                   </div>
-                  <div class="cart-item-specs d-inline-block px-2">
+                  <div class="cart-item-specs d-block d-md-inline-block px-2">
                       <p class="">{{product.title}}</p>
                       <p class="">Item color</p>
                       <p class="">{{product.category}}</p>
                       <p class="mb-0">Current stock: {{product.rating.count}}</p>
                   </div>
-                  <div class="cart-item-numbers d-inline-block">
+                  <div class="cart-item-numbers d-block d-md-inline-block">
                       <span class="d-block px-3">${{product.price}}</span>
                       <p class="mb-0 cart-item-quantity-controls">
                           <span @click="removeProductFromCart(product)" class="btn btn-xs btn-success">-</span>
@@ -96,7 +96,7 @@ export default {
     .cart-item-numbers{text-align: center; font-size: 21px;}
     .cart-item-quantity-controls span:hover{cursor: pointer;}
     @media screen and (min-width: 768px){
-        .cart-item, .cart-total{width: 80%;}
+        .cart-item, .cart-total{width: 100%;}
         .cart-item > div{width: 20%;}
     }
 </style>

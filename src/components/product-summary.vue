@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="col mb-4" v-for="product in products" :key="product.id">
-            <div class="card">
+            <div class="card h-100 p-1 p-lg-2">
                 <router-link :to="{name: 'ProductDetails', params: {id: product.id},}">
-                    <img :src="product.image" alt="Product image" class="card-img-top img-fluid">
+                    <img :src="product.image" alt="Product image" class="card-img-top">
                 </router-link>
                 <div class="card-body">
                     <router-link :to="{name: 'ProductDetails', params: {id: product.id},}" class="product-name h5">{{product.title}}</router-link>
@@ -43,4 +43,5 @@ export default {
 <style>
     a.product-name{color: inherit;}
     a.product-name:hover{text-decoration: none;}
+    .card img{max-height: 20vw; height: 20vw}
 </style>
