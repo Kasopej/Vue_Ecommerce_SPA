@@ -72,6 +72,8 @@ export default {
       ...mapActions({addProductToCart: 'addProductToCart', removeProductFromCart: 'removeProductFromCart', checkout: 'checkout',}),
       checkoutFn(){
           this.readyToCheckout = true;
+          this.checkout();
+          /*
           new Promise((resolve, reject) => {
               setTimeout(() => {
                   if(!this.checkingOut){
@@ -80,6 +82,7 @@ export default {
                   else setTimeout(() => reject(), 2000)
               }, 2000)
           }).catch(console.log).finally(this.checkout)
+          */
       },
     },
 }

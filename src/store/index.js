@@ -23,6 +23,7 @@ const mutations = {
     else {
       state.cart.push({ ...product, quantity: 1 })
     }
+    localStorage.setItem('cart', JSON.stringify(state.cart));
     state.message = '';
     console.log(state.cart);
   },
@@ -32,9 +33,13 @@ const mutations = {
       const index = state.cart.findIndex(e => e.id == payload.product.id);
       console.log(`check index of product: ${index}`);
       state.cart[index].quantity--;
-      (state.cart[index].quantity == 0) ? state.cart.splice(index, 1) : state.cart
+      (state.cart[index].quantity == 0) ? state.cart.splice(index, 1) : state.cart;
+      localStorage.setItem('cart', JSON.stringify(state.cart));
       state.message = '';
     }
+  },
+  populateCartFromStorage(state) {
+    state.cart = JSON.parse(localStorage.getItem('cart'));
   },
   checkout(state) {
     let error = false;
@@ -50,13 +55,23 @@ const mutations = {
       return error;
     })
     !error ? state.cart = [] : state.message = 'Please ensure your cart does not exceed the stock  currently available';
+    localStorage.removeItem('cart');
   }
 };
 const actions = {
-  async getProductsData({ commit }) {
-    const productsObj = await axios.get('https://fakestoreapi.com/products');
-    const products = productsObj.data
-    commit('populateStoreProducts', products);
+  async getProductsData(context) {
+    if (!context.state.products.length) {
+      console.log('Initializing products Array');
+      const productsObj = await axios.get('https://fakestoreapi.com/products');
+      const products = productsObj.data
+      context.commit('populateStoreProducts', products);
+    }
+  },
+  getCartFromStorage({ commit }) {
+    if (localStorage.getItem('cart')) {
+      console.log('Geting cart from local storage');
+      commit('populateCartFromStorage')
+    }
   },
   addProductToCart(context, product) {
     context.commit('populateCart', product);
