@@ -27,6 +27,11 @@ const routes = [
     name: 'Payment',
     component: () => import(/* webpackChunkName: "product-details" */  '../views/payment.vue')
   },
+  {
+    path: '/search-results',
+    name: 'SearchResults',
+    component: () => import(/* webpackChunkName: "product-details" */  '../views/search-results.vue')
+  },
 ]
 
 const router = new VueRouter({

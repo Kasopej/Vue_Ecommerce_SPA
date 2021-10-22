@@ -7,7 +7,7 @@ import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex);
 
 const state = {
-  products: [], users: [], cart: [], message: "", userIsSignedIn: false, loggedUser: {},
+  products: [], users: [], cart: [], message: "", userIsSignedIn: false, loggedUser: {}, searchResults: [],
 };
 const mutations = {
   populateStoreProducts(state, products) {
@@ -16,6 +16,9 @@ const mutations = {
   },
   populateStoreUsers(state, users) {
     state.users = users;
+  },
+  storeQueryResults(state, queryResults) {
+    state.searchResults = queryResults;
   },
   signIn(state, user) {
     state.loggedUser = user;
@@ -60,6 +63,13 @@ const actions = {
       const users = response.data;
       context.commit('populateStoreUsers', users)
     }
+  },
+  queryProducts(context, query) {
+    const queryResults = context.state.products.filter((product) => {
+      console.log(query);
+      return product.title.includes(query) || product.description.includes(query) || product.category.includes(query);
+    })
+    context.commit('storeQueryResults', queryResults)
   },
   signIn(context, loginEntry) {
     let user = context.state.users.find(user => user.email === loginEntry.email);

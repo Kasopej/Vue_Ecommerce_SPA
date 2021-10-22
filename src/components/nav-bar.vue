@@ -20,9 +20,9 @@
         <router-link to="/" class="nav-link" data-toggle="modal" data-target="#signup-modal">Signup</router-link>
       </li>
     </ul>
-    <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+    <form @submit="preventSubmit" class="form-inline">
+        <input v-model="query" class="form-control mr-sm-2"  placeholder="Search" aria-label="Search">
+        <button @click="getResults" class="btn btn-outline-dark my-2 my-sm-0">Search</button>
     </form>
   </div>
   <div class="modals">
@@ -102,7 +102,7 @@ export default {
     name: 'NavBar',   
     data() {
       return {
-        email: '', password: '', fullName: '',
+        email: '', password: '', fullName: '', query: '',
       }
     },
     computed: {
@@ -118,7 +118,15 @@ export default {
       }
     },
     methods: {
-      ...mapActions(['signIn', 'signUp'])
+      ...mapActions(['signIn', 'signUp', 'queryProducts']),
+      getResults(){
+        console.log('querying...');
+        this.queryProducts(this.query);
+        this.$router.push({path: '/search-results'})
+      },
+      preventSubmit(e){
+        e.preventDefault()
+      }
     },
 }
 </script>
@@ -129,5 +137,5 @@ form > div{width: 60%; margin: auto; margin-bottom: 15px;}
 form > div > label {display: block; font-size: 12px; text-align: start; margin: 0;}
 form > div > input {display: block;}
 .cart-link{position: relative;}
-.cart-indicator{position: absolute; top: 0; left: 0; padding: 2px 4px; border-radius: 50%; border: solid 1px #28a745; display: inline-block; font-size: 10px;}
+.cart-indicator{position: absolute; top: 0; left: 0; padding: 2px 4px; border-radius: 50%; border: solid 1px red; display: inline-block; font-size: 10px; color: white; background-color: red;}
 </style>
