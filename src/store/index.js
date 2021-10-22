@@ -66,7 +66,6 @@ const actions = {
   },
   queryProducts(context, query) {
     const queryResults = context.state.products.filter((product) => {
-      console.log(query);
       return product.title.includes(query) || product.description.includes(query) || product.category.includes(query);
     })
     context.commit('storeQueryResults', queryResults)

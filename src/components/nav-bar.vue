@@ -120,7 +120,6 @@ export default {
     methods: {
       ...mapActions(['signIn', 'signUp', 'queryProducts']),
       getResults(){
-        console.log('querying...');
         this.queryProducts(this.query);
         this.$router.push({path: '/search-results'})
       },
