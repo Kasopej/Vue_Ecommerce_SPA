@@ -7,12 +7,24 @@ import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex);
 
 const state = {
-  products: [], users: [], cart: [], message: "",
+  products: [], users: [], cart: [], message: "", userIsSignedIn: false, loggedUser: {},
 };
 const mutations = {
   populateStoreProducts(state, products) {
     state.products = products;
     state.message = '';
+  },
+  populateStoreUsers(state, users) {
+    state.users = users;
+  },
+  signIn(state, user) {
+    state.loggedUser = user;
+    state.userIsSignedIn = true;
+  },
+  signUp(state, newUser) {
+    state.users.push(newUser);
+    state.loggedUser = newUser;
+    state.userIsSignedIn = true;
   },
   populateCart_existing(state, index) {
     state.cart[index].quantity++;
@@ -30,7 +42,7 @@ const mutations = {
     state.cart = JSON.parse(localStorage.getItem('cart'));
   },
   checkout(state, error) {
-    !error ? state.cart = [] : state.message = 'Please ensure your cart does not exceed the stock  currently available';
+    !error ? state.cart = [] : state.message = 'Please ensure your cart does not exceed the stock currently available';
   }
 };
 const actions = {
@@ -41,6 +53,31 @@ const actions = {
       const products = response.data
       context.commit('populateStoreProducts', products);
     }
+  },
+  async getUsers(context) {
+    if (!context.state.users.length) {
+      const response = await axios.get('https://fakestoreapi.com/users');
+      const users = response.data;
+      context.commit('populateStoreUsers', users)
+    }
+  },
+  signIn(context, loginEntry) {
+    let user = context.state.users.find(user => user.email === loginEntry.email);
+    if (user.password === loginEntry.password) {
+      context.commit('signIn', user);
+    }
+  },
+  async signUp(context, signUpEntry) {
+    try {
+      const newUser = await axios.post('https://fakestoreapi.com/users', {
+        email: signUpEntry.email, password: signUpEntry.password, name: { firstname: signUpEntry.firstName, lastname: signUpEntry.lastName }
+      }).data;
+      context.commit('signUp', newUser);
+    }
+    catch (error) {
+      console.log(error.response.data);
+    }
+
   },
   getCartFromStorage({ commit }) {
     //Check if there are items in local storage cart array, if there are commit to state cart

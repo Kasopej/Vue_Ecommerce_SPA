@@ -12,9 +12,10 @@ export default {
   components: {NavBar},
   created() {
     this.getCartFromStorage();
+    this.getUsers();
   },
   methods: {
-    ...mapActions(['getCartFromStorage'])
+    ...mapActions(['getCartFromStorage', 'getUsers'])
   },
 }
 </script>

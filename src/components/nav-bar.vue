@@ -9,14 +9,14 @@
       <li class="nav-item active">
         <router-link to="/cart" class="nav-link"><i class="fas fa-shopping-cart mx-2"></i>Cart <span class="sr-only">(current)</span></router-link>
       </li>
-      <li v-if="false" class="nav-item">
+      <li v-if="userIsSignedIn" class="nav-item">
         <router-link to="Profile" class="nav-link">Profile</router-link>
       </li>
-      <li v-if="true" class="nav-item">
-        <router-link to="/" class="nav-link" data-toggle="modal" data-target="#login-modal">Login</router-link>
+      <li v-if="!userIsSignedIn" class="nav-item">
+        <router-link :to="{path: $router.currentRoute.value}" class="nav-link" data-toggle="modal" data-target="#login-modal">Login</router-link>
         
       </li>
-      <li v-if="true" class="nav-item">
+      <li v-if="!userIsSignedIn" class="nav-item">
         <router-link to="/" class="nav-link" data-toggle="modal" data-target="#signup-modal">Signup</router-link>
       </li>
     </ul>
@@ -26,9 +26,10 @@
     </form>
   </div>
   <div class="modals">
+    <!-- Login modal -->
     <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login-modal" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div v-if="!userIsSignedIn" class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Login</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -39,23 +40,27 @@
             <form action="">
               <div>
                 <label for="email">Email</label>
-                <input type="mail" name="email" id="login-email-input">
+                <input type="mail" name="email" id="login-email-input" v-model="email">
               </div>
               <div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="login-password">
+                <input type="password" name="password" id="login-password" v-model="password">
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Login</button>
+            <button @click="signIn(loginEntry)" type="button" class="btn btn-primary">Login</button>
           </div>
+        </div>
+        <div v-else class="modal-content">
+          <p>Signed in!</p>
         </div>
       </div>
     </div>
+    <!-- Sign up modal -->
     <div class="modal fade" id="signup-modal" tabindex="-1" aria-labelledby="signup-modal" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div v-if="!userIsSignedIn" class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Signup</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -66,21 +71,24 @@
             <form action="">
               <div>
                 <label for="full-name">Full Name</label>
-                <input type="text" name="full-name" id="full-name">
+                <input v-model="fullName" type="text" name="full-name" id="full-name">
               </div>
               <div>
                 <label for="email">Email</label>
-                <input type="mail" name="email" id="signup-email-input">
+                <input v-model="email" type="mail" name="email" id="signup-email-input">
               </div>
               <div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="signup-password">
+                <input v-model="password" type="password" name="password" id="signup-password">
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Sign Up</button>
+            <button @click="signUp(signUpEntry)" type="button" class="btn btn-primary">Sign Up</button>
           </div>
+        </div>
+        <div v-else class="modal-content">
+          Signed up!
         </div>
       </div>
     </div>
@@ -89,9 +97,28 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
     name: 'NavBar',   
-    
+    data() {
+      return {
+        email: '', password: '', fullName: '',
+      }
+    },
+    computed: {
+      ...mapState(['userIsSignedIn']),
+      loginEntry(){
+        return {email: this.email, password: this.password,}
+      },
+      signUpEntry(){
+        return {
+          firstName: this.fullName.split(' ')[0], lastName: this.fullName.split(' ')[1], email: this.email, password: this.password,
+        }
+      }
+    },
+    methods: {
+      ...mapActions(['signIn', 'signUp'])
+    },
 }
 </script>
   
