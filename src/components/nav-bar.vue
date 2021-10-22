@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse justify-content-md-end" id="navbarNav">
     <ul class="navbar-nav justify-content-xs-start">
       <li class="nav-item active">
-        <router-link to="/cart" class="nav-link"><i class="fas fa-shopping-cart mx-2"></i>Cart <span class="sr-only">(current)</span></router-link>
+        <router-link to="/cart" class="nav-link cart-link"><i class="fas fa-shopping-cart mx-2"></i>Cart <span class="sr-only">(current)</span><div class="cart-indicator">{{totalInCart}}</div></router-link>
       </li>
       <li v-if="userIsSignedIn" class="nav-item">
         <router-link to="Profile" class="nav-link">Profile</router-link>
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 export default {
     name: 'NavBar',   
     data() {
@@ -107,6 +107,7 @@ export default {
     },
     computed: {
       ...mapState(['userIsSignedIn']),
+      ...mapGetters(['totalInCart']),
       loginEntry(){
         return {email: this.email, password: this.password,}
       },
@@ -127,4 +128,6 @@ form{text-align: center;}
 form > div{width: 60%; margin: auto; margin-bottom: 15px;}
 form > div > label {display: block; font-size: 12px; text-align: start; margin: 0;}
 form > div > input {display: block;}
+.cart-link{position: relative;}
+.cart-indicator{position: absolute; top: 0; left: 0; padding: 2px 4px; border-radius: 50%; border: solid 1px #28a745; display: inline-block; font-size: 10px;}
 </style>

@@ -37,9 +37,9 @@
                   </router-link>
               </div>
               <p v-if="message" class="mt-3 text-center border">{{message}}</p>
-              <div v-if="showCheckingOutMsg">
+              <div v-if="showCheckingOutMsg" class="checkout-msg">
                   <button @click="readyToCheckout = false" class="btn-md btn-danger" style="float: right">x</button>
-                  <p style="clear: both">Attempting to checkout cart...</p>
+                  <p style="clear: both">Proceeding to payment...</p>
               </div>
           </div>
           <div v-if="showSignInAlert" class="card sign-in-alert">
@@ -50,6 +50,7 @@
                   <button @click="showSignInAlert = false" class="btn btn-info">Dismiss</button>
               </div>
           </div>
+          <div v-if="showSignInAlert" class="overlay"></div>
       </main>
   </div>
 </template>
@@ -77,7 +78,7 @@ export default {
         },
     },
     methods: {
-      ...mapActions({addProductToCart: 'addProductToCart', removeProductFromCart: 'removeProductFromCart', checkout: 'checkout',}),
+      ...mapActions({addProductToCart: 'addProductToCart', removeProductFromCart: 'removeProductFromCart',}),
       tryCheckout(){
           if(this.userIsSignedIn){
             this.readyToCheckout = true;
@@ -88,7 +89,7 @@ export default {
                     }
                     else setTimeout(() => reject(), 2000)
                 }, 2000)
-            }).catch(console.log).finally(this.checkout)
+            }).catch(console.log).finally(this.$router.push({path: '/payment'}))
         }
         else{
             this.showSignInAlert = true
@@ -108,7 +109,9 @@ export default {
     .cart-item-specs p{margin-bottom: 3px;}
     .cart-item-numbers{text-align: center; font-size: 21px;}
     .cart-item-quantity-controls span:hover{cursor: pointer;}
-    .sign-in-alert{position: absolute; top: 200px; left: 35vw; width: 30vw;}
+    .sign-in-alert{position: fixed; top: 20vw; left: 30vw; width: 40vw; text-align: center; vertical-align: middle; padding: 25px; border: solid 1px grey; background-color: white; z-index: 10;}
+    .checkout-msg{margin-top: -40px;}
+    .overlay{position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 2; background-color: rgba(0, 0, 0, 0.6);}
     @media screen and (min-width: 768px){
         .cart-item, .cart-total{width: 100%;}
         .cart-item > div{width: 20%;}

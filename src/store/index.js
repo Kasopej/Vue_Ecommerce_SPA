@@ -133,6 +133,9 @@ const getters = {
   },
   cartTotal(state) {
     return state.cart.reduce((sum, cartItem) => sum + (cartItem.quantity * cartItem.price), 0).toFixed(2)
+  },
+  totalInCart(state) {
+    return state.cart.length;
   }
 };
 export default new Vuex.Store({

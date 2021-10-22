@@ -10,6 +10,11 @@
                     <div>
                         <p>${{product.price}}</p>
                         <p>Current stock: {{product.rating.count}}</p>
+                        <p class="cart-item-quantity-controls pr-4">Add to cart 
+                            <span @click="removeProductFromCart(product)" class="ml-2 btn btn-xs btn-success">-</span>
+                            <span class="px-2">{{productInCart(product.id)}}</span>
+                            <span @click="addProductToCart(product)" class="btn btn-xs btn-success">+</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -18,7 +23,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 export default {
     name: 'ProductSummary',
     data() {
@@ -29,13 +34,14 @@ export default {
 
     },
     created() {
-        this.letStoreGetProducts()
+        this.letStoreGetProducts();
     },
     methods: {
-        ...mapActions({letStoreGetProducts: 'getProductsData'})    
+        ...mapActions({letStoreGetProducts: 'getProductsData', addProductToCart: 'addProductToCart', removeProductFromCart: 'removeProductFromCart',})    
     },
     computed: {
-        ...mapState(['products'])
+        ...mapState(['products']),
+        ...mapGetters(['productInCart']),
     },
 }
 </script>
