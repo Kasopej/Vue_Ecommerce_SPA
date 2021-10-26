@@ -7,9 +7,16 @@
 
 <script>
 import NavBar from "@/components/nav-bar";
+import { mapActions } from "vuex";
 export default {
   components: {NavBar},
-
+  created() {
+    this.getCartFromStorage();
+    this.getUsers();
+  },
+  methods: {
+    ...mapActions(['getCartFromStorage', 'getUsers'])
+  },
 }
 </script>
 <style>

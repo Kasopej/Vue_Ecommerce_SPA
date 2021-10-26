@@ -17,11 +17,20 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/cart-details.vue')
   },
   {
-
     path: '/product/:id',
     name: 'ProductDetails',
     component: () => import(/* webpackChunkName: "product-details" */  '../views/product-details.vue'),
     props: route => ({ id: parseInt(route.params.id) })
+  },
+  {
+    path: '/payment',
+    name: 'Payment',
+    component: () => import(/* webpackChunkName: "product-details" */  '../views/payment.vue')
+  },
+  {
+    path: '/search-results',
+    name: 'SearchResults',
+    component: () => import(/* webpackChunkName: "product-details" */  '../views/search-results.vue')
   },
 ]
 
