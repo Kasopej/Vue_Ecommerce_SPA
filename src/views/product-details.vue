@@ -3,6 +3,11 @@
       <div class="row">
           <div class="col-md-6">
             <img :src="product.image" alt="" class="img-fluid">
+          </div>
+          <div class="col-md-6 description">
+            <h3>Description</h3>
+            <p>{{product.description}}</p>
+            <hr>
             <div>
                 <p>Current stock: {{product.rating.count}}</p>
                 <p>${{product.price}}</p>
@@ -13,10 +18,6 @@
                 </p>
                 <router-link to="/cart" class="btn btn-xl btn-success">Go to cart</router-link>
             </div>
-          </div>
-          <div class="col-md-6 description">
-            <h3>Description</h3>
-            <p>{{product.description}}</p>
           </div>
       </div>
       
@@ -55,6 +56,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   .cart-item-quantity-controls span:first-of-type{padding-left: 10px;}
 </style>

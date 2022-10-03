@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="col mb-4" v-for="product in products" :key="product.id">
+  <div class="row row-cols-2 row-cols-md-4">
+      <div class="col mb-4" v-for="product in searchResults" :key="product.id">
             <div class="card h-100 p-1 p-lg-2">
                 <router-link :to="{name: 'ProductDetails', params: {id: product.id},}">
                     <img :src="product.image" alt="Product image" class="card-img-top">
@@ -19,35 +19,22 @@
                 </div>
             </div>
         </div>
-    </div>
+  </div>
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 export default {
-    name: 'ProductSummary',
-    data() {
-
-        return {
-            
-        }
-
-    },
-    created() {
-        this.letStoreGetProducts();
+    computed: {
+        ...mapState(['searchResults']),
+        ...mapGetters(['productInCart']),
     },
     methods: {
-        ...mapActions({letStoreGetProducts: 'getProductsData', addProductToCart: 'addProductToCart', removeProductFromCart: 'removeProductFromCart',})    
-    },
-    computed: {
-        ...mapState(['products']),
-        ...mapGetters(['productInCart']),
+        ...mapActions({addProductToCart: 'addProductToCart', removeProductFromCart: 'removeProductFromCart',})    
     },
 }
 </script>
 
 <style>
-    a.product-name{color: inherit;}
-    a.product-name:hover{text-decoration: none;}
-    .card img{max-height: 20vw; height: 20vw}
+
 </style>
